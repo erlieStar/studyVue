@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind指令</title>
+    <style>
+        .active {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!--直接绑定字符串或者对象均可,为对象时isActive为真，显示出来，否则不显示-->
+        <a :class="{active: isActive}":href="url">点我</a>
+    </div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            url: 'http://baidu.com',
+            isActive: true
+        }
+    })
+</script>
+</html>

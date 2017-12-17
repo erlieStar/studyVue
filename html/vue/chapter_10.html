@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>组件通信之父子通信</title>
+</head>
+<body>
+<div id="app">
+    <alert msg="haha"></alert>
+    <user username="zhangsan"></user>
+</div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    Vue.component('alert', {
+        template: '<button @click="click">点我</button>',
+        //绑定组件的属性
+        props: ['msg'],
+        methods: {
+            click: function () {
+                alert(this.msg);
+            }
+        }
+    });
+    Vue.component('user', {
+        template: '<a :href="\'/user/\' + username">{{username}}</a>',
+        //绑定组件的属性
+        props: ['username'],
+    });
+    new Vue({
+        el: '#app'
+    })
+</script>
+</html>

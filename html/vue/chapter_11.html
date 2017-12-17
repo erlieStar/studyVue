@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>组件通信之子父通信</title>
+</head>
+<body>
+    <div id="app">
+        <balance></balance>
+    </div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    Vue.component('show', {
+        template: '<button @click="click">显示余额</button>',
+        methods: {
+            click: function () {
+                //触发当前实例上的事件，附加参数都会传给监听器回调
+                this.$emit('show-balance', {a: 1, b: 2})
+            }
+        }
+    })
+    //收到子组件的show_balance事件，把show_balance改为true
+    Vue.component('balance', {
+        template: [
+            '<div>',
+                '<show @show-balance="show_balance"></show>',
+                '<div v-if="show">',
+                    '您的余额为98',
+                '</div>',
+            '</div>'
+        ].join(''),
+        methods: {
+            //将数据接收进来,注意@show_balance调用的方法不能加括号
+            show_balance: function (data) {
+                this.show = true;
+                console.log(data)
+            }
+        },
+        data: function () {
+            return {
+                show: false,
+            }
+        }
+    })
+    new Vue({
+        el: '#app',
+    })
+</script>
+</html>

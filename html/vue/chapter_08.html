@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>局部组件</title>
+</head>
+<body>
+<div id="app">
+    <alert></alert>
+</div>
+<div id="app2">
+    <!--在app2中写alert会报错，因为alert找不到-->
+    <alert></alert>
+</div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var alert_com = {
+        template: '<button @click="click">点我</button>',
+        methods: {
+            click: function () {
+                alert("clicked");
+            }
+        }
+    }
+    new Vue({
+        el: '#app',
+        components: {
+            alert: alert_com,
+        }
+    })
+    new Vue({
+        el: '#app2'
+    })
+</script>
+</html>

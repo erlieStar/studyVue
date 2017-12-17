@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>混合mixins</title>
+</head>
+<body>
+    <div id="app">
+        <tooltip></tooltip>
+        <popup></popup>
+    </div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    //封装2个组件都会用到的部分
+    var base = {
+        methods: {
+            show: function () {
+                this.visible = true;
+            },
+            hide: function () {
+                this.visible = false;
+            },
+            toggle: function () {
+                this.visible = !this.visible;
+            }
+        },
+        data: function () {
+            return {
+                visible: false
+            }
+        }
+    }
+    Vue.component('tooltip', {
+        template:[
+            '<div>',
+                '<span @mouseenter="show" @mouseleave="hide">区域</span>',
+                '<div v-if="visible">',
+                    '测试内容',
+                '</div>',
+            '</div>'
+        ].join(''),
+        mixins: [base]
+        //想改变base里面的内容时，直接在这个里面重写即可，会覆盖掉base里面的内容
+    })
+    Vue.component('popup', {
+        template: [
+            '<div>',
+                '<button @click="toggle">popup</button>',
+                '<div v-if="visible">',
+                    '<button @click="hide">隐藏</button>',
+                    '编程是一种创造性的工作，是一门艺术。精通任何一门艺术,',
+                '</div> ',
+            '</div>'
+        ].join(''),
+        mixins: [base]
+    })
+    new Vue({
+        el: '#app'
+    })
+</script>
+</html>

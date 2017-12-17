@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>命名视图</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <!--2种传参方式-->
+            <router-link to="/user">用户管理</router-link>
+            <router-link to="/post">帖子管理</router-link>
+        </div>
+        <div>
+            <router-view name="sidebar"></router-view>
+            <router-view name="content"></router-view>
+        </div>
+    </div>
+    <template id="temp1">
+        <div>
+            <ul>
+                <li>用户列表</li>
+                <li>权限管理</li>
+            </ul>
+        </div>
+    </template>
+    <template id="temp2">
+        <div>
+            <ul>
+                <li>帖子管理</li>
+                <li>标签管理</li>
+            </ul>
+        </div>
+    </template>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var routes = [
+        {
+            path: '/user',
+            components: {
+                sidebar: {
+                    template: '#temp1'
+                },
+                content: {
+                    template: '<div>这个是用户内容</div>'
+                },
+            }
+        },
+        {
+            path: '/post',
+            components: {
+                sidebar: {
+                    template: '#temp2'
+                },
+                content: {
+                    template: '<div>这个是帖子内容</div>'
+                },
+            }
+        }
+    ]
+    var router = new VueRouter({
+        routes: routes,
+    });
+    new Vue({
+        el: '#app',
+        router: router
+    })
+</script>
+</html>

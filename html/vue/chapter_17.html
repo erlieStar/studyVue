@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>插槽slots</title>
+    <style>
+        .panel {
+            max-width: 300px;
+            border: 1px solid #EEA9B8;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <panel>
+            <div slot="title">slot头部</div>
+            <div slot="content">slot内容</div>
+        </panel>
+        <panel>fadfd</panel>
+    </div>
+    <template id="panel-tpl">
+        <div class="panel">
+            <div class="title">
+                <slot name="title">
+                    slot默认值
+                </slot>
+            </div>
+            <div class="content">
+                <slot name="content">
+                    slot默认值
+                </slot>
+            </div>
+            <div class="footer">脚部</div>
+        </div>
+    </template>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    Vue.component('panel', {
+        template: '#panel-tpl',
+    })
+    new Vue({
+        el: '#app'
+    })
+</script>
+</html>

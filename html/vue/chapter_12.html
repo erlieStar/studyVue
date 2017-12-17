@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>组件通信之任意及平行组件间通信</title>
+</head>
+<body>
+    <div id="app">
+        <say></say>
+        <listen></listen>
+    </div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var Event = new Vue();
+    Vue.component('say', {
+        template: [
+            '<div>',
+                '我说<input type="text" @keyup="on_change" v-model="said">',
+            '</div>'
+        ].join(''),
+        methods: {
+            on_change: function () {
+                Event.$emit('has-said',this.said)
+            }
+        },
+        data: function () {
+            return {
+                said: ''
+            }
+        }
+    })
+    Vue.component('listen', {
+        template: [
+            '<div>',
+                '别人听到{{listend}}',
+            '</div>'
+        ].join(''),
+        data: function () {
+            return {
+                listend: ''
+            }
+        },
+        //初始化完毕
+        mounted: function () {
+            var me = this;
+            //监听当前实例上的自定义事件，事件可以由vm.$emit触发
+            Event.$on('has-said', function (data) {
+                me.listend = data;
+            })
+        }
+    })
+    new Vue({
+        el: '#app'
+    })
+</script>
+</html>

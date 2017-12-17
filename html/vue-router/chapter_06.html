@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>导航钩子</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <!--2种传参方式-->
+            <router-link to="/">首页</router-link>
+            <router-link to="/login">登陆</router-link>
+            <router-link to="/post">帖子管理</router-link>
+            <router-link to="/test">测试</router-link>
+        </div>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+    <template id="temp">
+        <div>
+            <h1>帖子管理</h1>
+            <router-link to="rain" append>详细信息</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var routes = [
+        {
+            path: '/',
+            component: {
+                template: '<h1>首页</h1>'
+            }
+        },
+        {
+            path: '/login',
+            component: {
+                template: '<h1>登陆</h1>'
+            }
+        },
+        {
+            path: '/post',
+            meta: {
+                login_required: true
+            },
+            component: {
+                template: '#temp'
+            },
+            children: [
+                {
+                    path: 'rain',
+                    component: {
+                        template: '<h2>雨天</h2>'
+                    }
+                }
+            ]
+        },
+        {
+            path: '/test',
+            meta: {
+                login_required: true
+            },
+            component: {
+                template: '<h2>测试</h2>'
+            },
+        }
+    ]
+    var router = new VueRouter({
+        routes: routes,
+    });
+
+    //路由访问之前
+    router.beforeEach(function (to, from, next) {
+        var logged_in = false;
+        //匹配到前缀是post则跳转到login
+        if (!logged_in && to.matched.some(function (item) {return item.meta.login_required})) {
+            next('/login');
+        } else {
+            next();
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        router: router
+    })
+</script>
+</html>

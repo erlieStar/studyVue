@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>子路由</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <!--2种传参方式-->
+            <router-link to="/user/张三">张三</router-link>
+            <router-link to="/user/李四">李四</router-link>
+        </div>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+    <template id="temp1">
+        <div>
+            <div>我叫:{{$route.params.name}}</div>
+            <!--子路由有如下2种方式，注意第二种方式to里面不能加/-->
+            <!--<router-link :to="'/user/' + $route.params.name + '/more'">更多信息</router-link>-->
+            <router-link to="more" append>更多信息</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+    <template id="temp2">
+        <div>
+            用户{{$route.params.name}}的详细信息
+        </div>
+    </template>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var routes = [
+        {
+            path: '/user/:name',
+            component: {
+                template: '#temp1'
+            },
+            children: [
+                {
+                    //不能加/
+                    path: 'more',
+                    component: {
+                        template: '#temp2'
+                    }
+                }
+            ]
+        }
+    ]
+    var router = new VueRouter({
+        routes: routes,
+    });
+    new Vue({
+        el: '#app',
+        router: router
+    })
+</script>
+</html>

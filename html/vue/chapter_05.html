@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>控制流指令</title>
+</head>
+<body>
+    <div id="app">
+        <div v-if="role == 'admin' || role == 'super'">
+            管理员你好
+        </div>
+        <div v-else-if="role == 'hr'">
+            hr你好
+        </div>
+        <div v-else>
+            您没有权限
+        </div>
+    </div>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            role: 'super'
+        }
+    })
+</script>
+</html>

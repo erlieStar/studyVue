@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>基本配置</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <router-link to="/">首页</router-link>
+            <router-link to="/about">关于我们</router-link>
+        </div>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+    <template id="temp1">
+        <div>
+            <h1>首页</h1>
+        </div>
+    </template>
+    <template id="temp2">
+        <div>
+            <h1>关于我们</h1>
+        </div>
+    </template>
+</body>
+<script src="../../lib/vue.js"></script>
+<script src="../../lib/vue-router.js"></script>
+<script>
+    var routes = [
+        {
+            path: '/',
+            component: {
+                template: '#temp1'
+            }
+        },
+        {
+            path: '/about',
+            component: {
+                template: '#temp2'
+            }
+        }
+    ]
+    var router = new VueRouter({
+        routes: routes,
+    });
+    new Vue({
+        el: '#app',
+        router: router
+    })
+</script>
+</html>
